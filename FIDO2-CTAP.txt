@@ -1,3 +1,5 @@
+It provides a standard interface for the browser to communicate with different types of authenticators, whether they are USB security keys, biometric devices, or other hardware.
+
 CTAP1 (U2F)
 Authentication Method: Primarily used as a second factor of authentication, where a user would first use a password and then authenticate using a U2F device.
 Support for Cryptographic Protocols: Limited to fewer cryptographic protocols compared to CTAP2.
