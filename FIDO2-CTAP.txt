@@ -118,6 +118,48 @@ Conclusion
 This process outlines a secure and user-friendly mechanism to enable strong authentication using WebAuthn and CTAP2 with roaming authenticators. It leverages public key cryptography to provide a high level of security, protecting users from phishing and other attacks.
 
 
+-------------------------------------------
+
+1. WebAuthn API and CTAP Interaction
+WebAuthn API Interaction with Authenticator Client
+At a low level, the WebAuthn API interacts with the authenticator client through a series of steps, typically initiated through a web browser or other client platform:
+
+User Interaction:
+
+Registration (User Enrolment): When a user wants to register a new device or authenticator with a service, the client platform initiates a WebAuthn registration ceremony.
+Authentication: When a user wants to authenticate, the client platform initiates a WebAuthn authentication ceremony.
+Client-to-Authenticator Protocol (CTAP):
+
+WebAuthn utilizes the CTAP which defines how the client platform communicates with external authenticators (like USB, NFC, or Bluetooth devices).
+Here are the detailed steps and technical interactions:
+
+Step 1: Request from Relying Party
+Initialization: The Relying Party Server initializes either an authentication or registration request. This request contains necessary parameters and challenges.
+Transmission to Client: This request is sent to the client’s platform/browser.
+Step 2: Interaction with WebAuthn API
+API Call: The browser interacts with the WebAuthn API and constructs a PublicKeyCredentialRequestOptions or PublicKeyCredentialCreationOptions object based on the initial request.
+User Verification: The browser prompts the user to perform user verification, which could be entering a PIN or using a biometric identifier.
+Step 3: Interaction with Authenticator through CTAP
+CTAP Call: The WebAuthn API communicates with the authenticator through CTAP (Client-to-Authenticator Protocol). It sends a request through CTAP1 (U2F) or CTAP2 protocol depending on the authenticator compatibility.
+
+In CTAP2, the two primary operations are:
+
+authenticatorMakeCredential: Utilized during the registration flow. It accepts the Relying Party (RP) info, the user info, and the public key credential parameters along with the challenge from the RP server.
+authenticatorGetAssertion: Used during the authentication flow. It takes the RP ID, hash of the client data, and allows list of credentials, along with the challenge from the RP server.
+Operation Execution: The authenticator processes the request, performing the necessary cryptographic operations and user verification.
+
+Response Construction: The authenticator constructs a response that contains the credential ID, a signed object, and other metadata.
+
+Transmission to WebAuthn API: The response is sent back to the WebAuthn API through the CTAP.
+
+Step 4: Verification at Relying Party
+Client Data Formation: The client (browser) constructs a response object containing the data returned from the authenticator along with some additional information about the request.
+Verification by Relying Party: This data is then sent to the relying party server for verification. The server verifies the signature, authenticator data, and the client data to ensure authenticity.
+Completion of Ceremony: Depending on the verification result, the RP server completes the ceremony, either registering the new credential or authenticating the session.
+Conclusion
+The interaction between the WebAuthn API and the authenticator via CTAP is a complex yet streamlined process that ensures secure and user-friendly authentication and registration ceremonies. It leverages modern cryptographic techniques and allows for a variety of user verification methods, enhancing the security and usability of web-based authentication systems.
+
+
 
 
 
