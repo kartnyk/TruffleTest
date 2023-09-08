@@ -200,3 +200,23 @@ User Presence (UP): A simple test to verify that a user is present, often implem
 User Verification (UV): A more secure verification method that involves verifying the user's identity through PINs, biometrics, or other methods.
 
 
+#!/bin/bash
+
+# Define the common GitLab URL
+GITLAB_URL="https://gitlab.com/your_organization"
+
+# Specify the project names in an array
+PROJECT_NAMES=("project1" "project2" "project3")
+
+# Check if there are any project names specified in the array
+if [ "${#PROJECT_NAMES[@]}" -eq 0 ]; then
+    echo "No project names specified in the script."
+    exit 1
+fi
+
+# Loop through all specified project names in the array and clone them
+for PROJECT_NAME in "${PROJECT_NAMES[@]}"; do
+    git clone "${GITLAB_URL}/${PROJECT_NAME}.git"
+done
+s
+
